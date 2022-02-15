@@ -16,5 +16,5 @@ npm run install
 
 # Ejecutar Aplicacion
 ```bash
-node index.js
+npm run dev
 ```  
