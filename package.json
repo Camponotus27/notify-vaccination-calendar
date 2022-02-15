@@ -1,36 +1,37 @@
 {
-  "name": "notify-vaccination-calendar",
-  "version": "1.0.0",
-  "description": "- Git\r - Node.",
-  "main": "index.js",
-  "dependencies": {
-    "react-hot-loader": "^4.13.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.17.2",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "^7.16.7",
-    "babel-loader": "^8.2.3",
-    "ts-loader": "^9.2.6",
-    "typescript": "^4.5.5",
-    "webpack": "^5.68.0",
-    "webpack-cli": "^4.9.2"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exnit 1",
-    "build": "webpack",
-    "start": "node dist/bundle.js",
-    "dev": "npm run build && npm run start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Camponotus27/notify-vaccination-calendar.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Camponotus27/notify-vaccination-calendar/issues"
-  },
-  "homepage": "https://github.com/Camponotus27/notify-vaccination-calendar#readme"
+	"name": "notify-vaccination-calendar",
+	"version": "1.0.0",
+	"description": "- Git\r - Node.",
+	"main": "index.js",
+	"dependencies": {
+		"react-hot-loader": "^4.13.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.17.2",
+		"@babel/preset-env": "^7.16.11",
+		"@babel/preset-react": "^7.16.7",
+		"babel-loader": "^8.2.3",
+		"nodemon": "^2.0.15",
+		"ts-loader": "^9.2.6",
+		"ts-node": "^10.5.0",
+		"typescript": "^4.5.5",
+		"webpack": "^5.68.0",
+		"webpack-cli": "^4.9.2"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exnit 1",
+		"start": "webpack && node dist/bundle.js",
+		"dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Camponotus27/notify-vaccination-calendar.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Camponotus27/notify-vaccination-calendar/issues"
+	},
+	"homepage": "https://github.com/Camponotus27/notify-vaccination-calendar#readme"
 }
