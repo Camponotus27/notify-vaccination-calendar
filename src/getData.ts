@@ -1,24 +1,45 @@
-import axios from 'axios'
-import https from 'https'
+import axios, { AxiosResponse } from 'axios';
+import cheerio from 'cheerio';
+const fs = require('fs');
+const path = require('path');
 
-export default function GetData(){
-    // desde la url https://www.minsal.cl/calendario-de-vacunacion-masiva-contra-covid-19/ obtener la informacion de la vacuna
-    const URL_VACUNATION_CALENDAR: string = "https://www.minsal.cl/calendario-de-vacunacion-masiva-contra-covid-19";
-    console.log('Obteniendo informacion de calendario de vacunas');
+export default async function GetData() {
+	console.log('Obteniendo informacion de calendario de vacunas');
 
-    const AxiosInstance = axios.create({httpsAgent: new https.Agent({  
-        rejectUnauthorized: false
-      })}); // Create a new Axios Instance
+	const URL_VACUNATION_CALENDAR: string = 'http://www.corporacionbuin.cl';
+	try {
+		let res: AxiosResponse = await axios.get(URL_VACUNATION_CALENDAR);
+		const html = await res.data;
+		const $ = cheerio.load(html);
+		const images: cheerio.Cheerio = $(
+			'#bdt-modal-0c84090 .bdt-modal-body > p > img'
+		);
 
-// Send an async HTTP Get request to the url
-AxiosInstance.get(URL_VACUNATION_CALENDAR)
-  .then( // Once we have data returned ...
-    response => {
-      const html = response.data; // Get the HTML from the HTTP request
-      console.log(html);
-    }
-  )
-  .catch((err)=>{
-      console.log("Error");
-    console.log(err)}); // Error handling
+		images.each((i, elem) => {
+			const urlImange = $(elem).attr('src');
+			if (urlImange) urlToObject(urlImange);
+		});
+	} catch (err) {
+		console.log('Error al obtener informacion de calendario de vacunas');
+	}
 }
+
+const urlToObject = async (fileUrl: string, downloadFolder = 'images') => {
+	const fileName = path.basename(fileUrl);
+	try {
+		const localFilePath = path.resolve(__dirname, downloadFolder, fileName);
+
+		const response = await axios({
+			method: 'GET',
+			url: fileUrl,
+			responseType: 'stream',
+		});
+
+		const w = response.data.pipe(fs.createWriteStream(localFilePath));
+		w.on('finish', () => {
+			console.log('Successfully downloaded file!');
+		});
+	} catch (err) {
+		console.log('Error to get image from url: ', err);
+	}
+};
