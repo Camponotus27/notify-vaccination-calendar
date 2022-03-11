@@ -17,9 +17,9 @@ export default async function GetData() {
 			'#bdt-modal-0c84090 .bdt-modal-body > p > img'
 		);
 
-		images.each((i, elem) => {
+		images.each(async (i, elem) => {
 			const urlImange = $(elem).attr('src');
-			if (urlImange) urlToObject(urlImange, 'images');
+			if (urlImange) await urlToObject(urlImange, 'images');
 		});
 	} catch (err) {
 		console.log('Error al obtener informacion de calendario de vacunas: ', err);
@@ -41,8 +41,8 @@ const urlToObject = async (fileUrl: string, downloadFolder: string) => {
 		w.on('finish', () => {
 			console.log('Successfully downloaded file!');
 		});
-		w.on('error', () => {
-			console.log('fail!');
+		w.on('error', (err: any) => {
+			console.log(`Error downloading file: ${err}`);
 		});
 	} catch (err) {
 		console.log('Error to get image from url: ', err);
@@ -56,7 +56,10 @@ var mkdirpSync = function (dirpath: string) {
 			fs.mkdirSync(path.join.apply(null, parts.slice(0, i)));
 		} catch (e: any) {
 			if (e.code != 'EEXIST') throw e;
-			else console.log('Folder already exists');
+			else
+				console.log(
+					`Folder  ${path.join.apply(null, parts.slice(0, i))} already exists`
+				);
 		}
 	}
 };
